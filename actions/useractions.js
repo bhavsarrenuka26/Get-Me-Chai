@@ -17,7 +17,7 @@ export const initiate = async (amount, to_username, paymentform) => {
 
     //create a payment object which shows a pending payment
 
-    await Payment.create({ oid: x.id, amount: amount, to_user: to_username, name: paymentform.name, message: paymentform.message })
+    await Payment.create({ oid: x.id, amount: amount/100, to_user: to_username, name: paymentform.name, message: paymentform.message })
     return x;
 }
 export const fetchuser = async (username) => {
@@ -37,7 +37,7 @@ export const fetchuser = async (username) => {
 export const fetchpayments = async (username) => {
     await connectDB()
 
-    let p = await Payment.find({ to_user: username })
+    let p = await Payment.find({ to_user: username, done:true})
         .sort({ amount: -1 })
         .lean()
 
