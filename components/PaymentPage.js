@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Bounce } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { useRouter,notFound } from "next/navigation";
 
 const PaymentPage = ({ username }) => {
      const {data:session}=useSession()
@@ -129,14 +129,14 @@ const PaymentPage = ({ username }) => {
             <div className="info flex flex-col justify-center items-center my-20 gap-2 mb-7">
                 <div className="font-bold text-lg">@{username}</div>
 
-                <div className="text-slate-400">Creating Animated art for VTT's</div>
+                <div className="text-slate-400">Let's help {username} to get a chai!!</div>
                 <div className="text-slate-400">
-                    25,512 members . 110 Posts . $17,590/release
+                   {payments.length} Payments . ₹{payments.reduce((a,b)=>a+b.amount,0)} raised!!
                 </div>
                 <div className="payment flex gap-2 w-[90%] mt-11">
                     <div className="supporters w-1/2 bg-slate-900 rounded-lg p-10">
                         {/* show list of all the supporters as a leaderboard */}
-                        <h2 className="text-2xl font-bold my-5">Supporters</h2>
+                        <h2 className="text-2xl font-bold my-5">Top 10 Supporters</h2>
                         <ul className="mx-3 text-md">
                             {payments.length == 0 && <li>No Payments yet!!</li>}
                             {payments.map((p, i) => {
@@ -152,7 +152,7 @@ const PaymentPage = ({ username }) => {
                             <input onChange={handleChange} value={paymentform.name} name='name' type="text" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Name' />
                             <input onChange={handleChange} value={paymentform.message} name='message' type="text" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Message' />
                             <input onChange={handleChange} value={paymentform.amount} name="amount" type="number" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Amount' />
-                            <button onClick={() => pay(Number.parseInt(paymentform.amount) * 100)} className="text-white bg-gradient-to-br from-purple-900 to-blue-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 disabled:bg-slate-600 disabled:from-purple-100" disabled={paymentform.name?.length < 2 || paymentform.message?.length < 4} >Pay</button>
+                            <button onClick={() => pay(Number.parseInt(paymentform.amount) * 100)} className="text-white bg-gradient-to-br from-purple-900 to-blue-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 disabled:bg-slate-600 disabled:from-purple-100" disabled={paymentform.name?.length < 2 || paymentform.message?.length < 4|| paymentform.amount?.length<1} >Pay</button>
 
                         </div>
                         {/* or choose from this amounts */}
