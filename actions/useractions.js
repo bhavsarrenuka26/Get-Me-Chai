@@ -4,10 +4,12 @@ import Payment from "@/models/Payment"
 import connectDB from "@/db/connectDb"
 import User from "@/models/User"
 
-
 export const initiate = async (amount, to_username, paymentform) => {
     await connectDB()
-    var instance = new Razorpay({ key_id: process.env.NEXT_PUBLIC_KEY_ID, key_secret: process.env.KEY_SECRET })
+    let user = await User.findOne({username:to_username})
+    const secret = user.razorpaysecret
+    const id = user.razorpayid
+    var instance = new Razorpay({ key_id: id, key_secret: secret })
 
     let options = {
         amount: Number.parseInt(amount),
@@ -38,7 +40,7 @@ export const fetchpayments = async (username) => {
     await connectDB()
 
     let p = await Payment.find({ to_user: username, done:true})
-        .sort({ amount: -1 })
+        .sort({ amount: -1 }).limit(10)
         .lean()
 
     p = p.map(payment => ({
@@ -57,7 +59,13 @@ export const updateProfile = async (data, oldusername) => {
         if (u){
             return {error:"Username already exists"}
         }
+          await User.updateOne({email : ndata.email},ndata)
+          //now update all the usernames in Payments table
+          await Payment.updateMany({to_user:oldusername},{to_user:ndata.username})
 
-        await User.updateOne({email : ndata.email},ndata)
+      
+    }
+    else{
+          await User.updateOne({email : ndata.email},ndata)
     }
 }
