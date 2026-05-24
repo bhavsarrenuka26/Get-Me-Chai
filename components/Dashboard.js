@@ -51,7 +51,7 @@ const Dashboard = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "light",
+            theme: "dark",
             transition: Bounce,
             });
     }
@@ -72,7 +72,7 @@ const Dashboard = () => {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
+                theme="dark"
             />
             {/* Same as */}
             <ToastContainer />
