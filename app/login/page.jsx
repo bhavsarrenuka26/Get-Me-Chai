@@ -4,11 +4,13 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { notFound, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+
 const page = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
   useEffect(() => {
+    document.title="Login - Get Me A Chai"
     if (session) {
       router.push("/dashboard");
     }
@@ -17,7 +19,7 @@ const page = () => {
   return (
     <div className="text-white py-14 container mx-auto">
       <h2 className="text-3xl font-bold text-center">
-        Login to get your fans to support you
+        Login to get Started
       </h2>
       <div className="social-login-buttons">
         <div className="flex flex-col gap-2 min-h-screen p-10 items-center">
