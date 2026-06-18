@@ -4,13 +4,12 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { notFound, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-
 const page = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    document.title="Login - Get Me A Chai"
+    document.title = "Login - Get Me A Chai";
     if (session) {
       router.push("/dashboard");
     }
@@ -18,12 +17,15 @@ const page = () => {
 
   return (
     <div className="text-white py-14 container mx-auto">
-      <h2 className="text-3xl font-bold text-center">
-        Login to get Started
-      </h2>
+      <h2 className="text-3xl font-bold text-center">Login to get Started</h2>
       <div className="social-login-buttons">
         <div className="flex flex-col gap-2 min-h-screen p-10 items-center">
-          <button className="flex items-center text-black w-64  bg-slate-200 border border-gray-300 rounded-lg shadow-md max-w-xs px-6 py-2 text-sm font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+          <button
+            className="flex items-center text-black w-64  bg-slate-200 border border-gray-300 rounded-lg shadow-md max-w-xs px-6 py-2 text-sm font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            onClick={() => {
+              signIn("google");
+            }}
+          >
             <svg
               className="h-6 w-6 mr-2"
               xmlns="http://www.w3.org/2000/svg"
