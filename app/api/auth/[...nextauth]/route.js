@@ -1,46 +1,32 @@
 import NextAuth from 'next-auth'
-// import AppleProvider from 'next-auth/providers/apple'
-// import FacebookProvider from 'next-auth/providers/facebook'
-// import GoogleProvider from 'next-auth/providers/google'
-// import EmailProvider from 'next-auth/providers/email'
+import GoogleProvider from 'next-auth/providers/google'
 import GitHubProvider from "next-auth/providers/github";
 import mongoose from "mongoose";
 import connectDB from '@/db/connectDb';
 import User from '@/models/User';
 import Payment from '@/models/Payment';
 
-
-export const authoptions = NextAuth({
+export const authOptions = {
     providers: [
-        // OAuth authentication providers...
         GitHubProvider({
             clientId: process.env.GITHUB_ID,
             clientSecret: process.env.GITHUB_SECRET
         }),
-        //   AppleProvider({
-        //     clientId: process.env.APPLE_ID,
-        //     clientSecret: process.env.APPLE_SECRET
-        //   }),
-        //   FacebookProvider({
-        //     clientId: process.env.FACEBOOK_ID,
-        //     clientSecret: process.env.FACEBOOK_SECRET
-        //   }),
-        //   GoogleProvider({
-        //     clientId: process.env.GOOGLE_ID,
-        //     clientSecret: process.env.GOOGLE_SECRET
-        //   }),
-        //   // Passwordless / email sign in
-        //   EmailProvider({
-        //     server: process.env.MAIL_SERVER,
-        //     from: 'NextAuth.js <no-reply@example.com>'
-        //   }),
+        GoogleProvider({
+           
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET
+        }),
     ],
-     secret: process.env.NEXTAUTH_SECRET,  
+    secret: process.env.NEXTAUTH_SECRET,  
     callbacks: {
         async signIn({ user, account, profile }) {
-            if (account.provider === "github") {
+          
+            if (account.provider === "github" || account.provider === "google") {
                 await connectDB()
                 const currentUser = await User.findOne({ email: user.email })
+                
+                // If user doesn't exist, create a new one in MongoDB
                 if (!currentUser) {
                     await User.create({
                         email: user.email,
@@ -49,6 +35,7 @@ export const authoptions = NextAuth({
                 }
                 return true
             }
+            return false // Fallback in case a different provider tries to log in
         },
 
         async session({ session, token }) {
@@ -60,6 +47,9 @@ export const authoptions = NextAuth({
             return session
         },
     }
-})
+}
 
-export { authoptions as GET, authoptions as POST }
+// Standard Next.js App Router export pattern
+const handler = NextAuth(authOptions)
+
+export { handler as GET, handler as POST }
