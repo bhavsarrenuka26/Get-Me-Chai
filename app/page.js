@@ -51,18 +51,36 @@ export default function Home() {
     Learn more about us
   </h2>
 
-  <div className="w-full max-w-2xl aspect-video">
-    <iframe
-      className="w-full h-full rounded-xl shadow-lg"
-      src="https://www.youtube.com/embed/ojuUnfqnUI0?si=wMUv4DG3ia6Wt4zn"
-      title="YouTube video player"
-      frameBorder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowFullScreen
-    ></iframe>
+  <div className="w-full max-w-4xl">
+ 
+  <div className="bg-gray-800/40 border border-gray-700 rounded-2xl p-8 shadow-2xl">
+    <h2 className="text-3xl font-bold text-center text-white mb-8">How it Works</h2>
+    
+    <div className="grid md:grid-cols-3 gap-8">
+      
+      <div className="text-center">
+        <div className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg shadow-blue-500/30">1</div>
+        <h3 className="text-lg font-semibold text-white mb-2">Create a Profile</h3>
+        <p className="text-sm text-gray-400">Sign in and set up your personalized creator page in less than two minutes.</p>
+      </div>
+      
+      
+      <div className="text-center">
+        <div className="w-12 h-12 bg-purple-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg shadow-purple-500/30">2</div>
+        <h3 className="text-lg font-semibold text-white mb-2">Share Your Link</h3>
+        <p className="text-sm text-gray-400">Post your unique 'Get Me a Chai' link on your YouTube, Instagram, or GitHub.</p>
+      </div>
+      
+      
+      <div className="text-center">
+        <div className="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg shadow-green-500/30">3</div>
+        <h3 className="text-lg font-semibold text-white mb-2">Get Funded</h3>
+        <p className="text-sm text-gray-400">Fans can buy you a chai, leaving custom messages while funds go straight to you.</p>
+      </div>
+    </div>
   </div>
-
 </div>
+  </div>
    <div className="bg-white h-1 opacity-15"></div>
    </>
   );
