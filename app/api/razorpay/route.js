@@ -25,9 +25,9 @@ const secret = user.razorpaysecret
    if(xx)
    {
     //update the payment status
-    const updatedPayment = await Payment.findOneAndUpdate({oid: body.razorpay_order_id},{done : "true"},{new:true})
+    const updatedPayment = await Payment.findOneAndUpdate({oid: body.razorpay_order_id},{done : true},{new:true})
 
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/${updatedPayment.to_user}?paymentdone=true`)
+    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/${updatedPayment.to_user}?paymentdone=true`,{ status: 303 })
    }
 
    else{
