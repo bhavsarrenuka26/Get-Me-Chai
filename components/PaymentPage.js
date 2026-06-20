@@ -50,7 +50,7 @@ const PaymentPage = ({ username }) => {
 
     const handleChange = (e) => {
         setpaymentform({ ...paymentform, [e.target.name]: e.target.value })
-        console.log(paymentform)
+       
     }
 
     const getData = async () => {
@@ -58,7 +58,7 @@ const PaymentPage = ({ username }) => {
         setcurrentuser(u);
         let dbpayments = await fetchpayments(username)
         setpayments(dbpayments)
-        console.log(u, dbpayments)
+     
     }
 
 
@@ -114,11 +114,11 @@ const PaymentPage = ({ username }) => {
 
             <div className="cover w-full bg-red-50 relative">
                 <img
-                    className="object-cover w-full h-[350px]"
+                    className="object-cover w-full h-48 md:h-[350px]"
                     src={currentuser?.coverpic || "/defaultcover.gif"}
                     alt=""
                 />
-                <div className="profile absolute right-[46%] -bottom-16 border-2 border-white rounded-full overflow-hidden">
+                <div className="profile absolute right-[36%] md:right-[46%] -bottom-16 border-2 border-white rounded-full overflow-hidden">
                     <img
                         className="w-[120px] h-[120px] rounded-full"
                         src={currentuser?.profilepic || "/defaultprofile.png"}
@@ -126,18 +126,18 @@ const PaymentPage = ({ username }) => {
                     />
                 </div>
             </div>
-            <div className="info flex flex-col justify-center items-center my-20 gap-2 mb-7">
+            <div className="info flex flex-col  justify-center items-center my-20 gap-2 mb-7">
                 <div className="font-bold text-lg">@{username}</div>
 
                 <div className="text-slate-400">Let's help {username} to get a chai!!</div>
                 <div className="text-slate-400">
                    {payments.length} Payments . ₹{payments.reduce((a,b)=>a+b.amount,0)} raised!!
                 </div>
-                <div className="payment flex gap-2 w-[90%] mt-11">
-                    <div className="supporters w-1/2 bg-slate-900 rounded-lg p-10">
+                <div className="payment flex gap-2 w-[90%] mt-11 flex-col md:flex-row">
+                    <div className="supporters w-full md:w-1/2 bg-slate-900 rounded-lg p-10">
                         {/* show list of all the supporters as a leaderboard */}
                         <h2 className="text-2xl font-bold my-5">Top 10 Supporters</h2>
-                        <ul className="mx-3 text-md">
+                        <ul className="mx-3 md:text-md text:sm">
                             {payments.length == 0 && <li>No Payments yet!!</li>}
                             {payments.map((p, i) => {
                                 return <li key={i} className="my-4 flex gap-2 items-center">
@@ -146,9 +146,9 @@ const PaymentPage = ({ username }) => {
                             })}
                         </ul>
                     </div>
-                    <div className="makepayment bg-slate-900 w-1/2 rounded-lg p-10">
+                    <div className="makepayment bg-slate-900 w-full md:w-1/2 rounded-lg p-10">
                         <h2 className="text-2xl font-bold my-5">Make a Payment</h2>
-                        <div className="flex  flex-col gap-2">
+                        <div className="flex  flex-col gap-2 ">
                             <input onChange={handleChange} value={paymentform.name} name='name' type="text" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Name' />
                             <input onChange={handleChange} value={paymentform.message} name='message' type="text" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Message' />
                             <input onChange={handleChange} value={paymentform.amount} name="amount" type="number" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Amount' />
@@ -156,7 +156,7 @@ const PaymentPage = ({ username }) => {
 
                         </div>
                         {/* or choose from this amounts */}
-                        <div className="flex gap-2 mt-5">
+                       <div className='flex flex-col md:flex-row gap-2 mt-5'>
                             <button className="p-3 bg-slate-800 rounded-lg" onClick={() => pay(1000)}>Pay ₹10</button>
                             <button className="p-3 bg-slate-800 rounded-lg" onClick={() => pay(2000)}>Pay ₹20</button>
                             <button className="p-3 bg-slate-800 rounded-lg" onClick={() => pay(3000)}>Pay ₹30</button>

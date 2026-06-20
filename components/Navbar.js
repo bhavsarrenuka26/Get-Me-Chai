@@ -6,11 +6,9 @@ import Link from "next/link";
 const Navbar = () => {
   const { data: session } = useSession()
   const [showdropdown, setShowdropdown] = useState(false)
-  console.log(session)
-  
   return (
     <div>
-      <nav className="bg-gray-900 text-white flex justify-between px-4 h-16 items-center">
+      <nav className="bg-gray-900 text-white flex justify-between px-4 md:h-16 flex-col md:flex-row items-center">
       
           <Link className="logo font-bold text-xl flex gap-1 justify-center items-center" href={"/"}>
           <img className='invertImg' width={44} src="/tea.gif" alt="" />

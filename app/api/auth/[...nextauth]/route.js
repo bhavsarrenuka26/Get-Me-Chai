@@ -26,7 +26,7 @@ export const authOptions = {
                 await connectDB()
                 const currentUser = await User.findOne({ email: user.email })
                 
-                // If user doesn't exist, create a new one in MongoDB
+              //new user
                 if (!currentUser) {
                     await User.create({
                         email: user.email,
@@ -35,7 +35,7 @@ export const authOptions = {
                 }
                 return true
             }
-            return false // Fallback in case a different provider tries to log in
+            return false 
         },
 
         async session({ session, token }) {
@@ -49,7 +49,7 @@ export const authOptions = {
     }
 }
 
-// Standard Next.js App Router export pattern
+
 const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }
