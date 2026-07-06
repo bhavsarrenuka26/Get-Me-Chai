@@ -74,3 +74,27 @@ export const updateProfile = async (data, oldusername) => {
         await User.updateOne({ email: ndata.email }, ndata)
     }
 }
+export const searchUsers = async (query) => {
+    await connectDB();
+    
+    // If the search box is empty, return an empty array
+    if (!query || query.length === 0) return [];
+
+    // Search for matching usernames OR names
+    // i - case insensitive
+    let users = await User.find({
+        $or: [
+            { username: { $regex: query, $options: "i" } },
+            { name: { $regex: query, $options: "i" } }
+        ]
+    })
+    .select("name username profilepic") // Only fetch what we need for the dropdown
+    .limit(5) //5 at a time
+    .lean();
+
+    // Convert MongoDB ObjectIds to strings 
+    return users.map(user => ({
+        ...user,
+        _id: user._id.toString()
+    }));
+}
