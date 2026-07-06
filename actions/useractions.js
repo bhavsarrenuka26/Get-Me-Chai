@@ -3,24 +3,39 @@ import Razorpay from "razorpay"
 import Payment from "@/models/Payment"
 import connectDB from "@/db/connectDb"
 import User from "@/models/User"
-import { encrypt } from '@/lib/encryption';
+import { encrypt,decrypt } from '@/lib/encryption';
 
 export const initiate = async (amount, to_username, paymentform) => {
     await connectDB()
     let user = await User.findOne({ username: to_username })
-    const secret = user.razorpaysecret
-    const id = user.razorpayid
+    
+    
+    const secret = decrypt(user?.razorpaysecret?.trim());
+    const id = user?.razorpayid?.trim(); 
+
+   
+    if (!id || !secret) {
+        throw new Error("Razorpay credentials missing or invalid for this creator.");
+    }
+
     var instance = new Razorpay({ key_id: id, key_secret: secret })
 
     let options = {
         amount: Number.parseInt(amount),
         currency: "INR",
     }
+    
     let x = await instance.orders.create(options)
 
     //create a payment object which shows a pending payment
-
-    await Payment.create({ oid: x.id, amount: amount / 100, to_user: to_username, name: paymentform.name, message: paymentform.message })
+    await Payment.create({ 
+        oid: x.id, 
+        amount: amount / 100, 
+        to_user: to_username, 
+        name: paymentform.name, 
+        message: paymentform.message 
+    })
+    
     return x;
 }
 export const fetchuser = async (username) => {
